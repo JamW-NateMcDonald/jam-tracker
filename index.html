@@ -87,6 +87,7 @@
 </table>
 
 <script>
+<script>
 let songs = [];
 
 function addSong() {
@@ -109,7 +110,7 @@ function renderTable() {
   let table = document.getElementById("tableBody");
   table.innerHTML = "";
 
-  songs.forEach(s => {
+  songs.forEach((s, index) => {
     table.innerHTML += `
       <tr>
         <td>${s.name}</td>
@@ -120,15 +121,27 @@ function renderTable() {
         <td><a href="${s.spotify}" target="_blank">Listen</a></td>
         <td>${s.difficulty}</td>
         <td>${s.status}</td>
+        <td>
+          <button onclick="deleteSong(${index})"
+            style="background:Red;color:white;border:none;padding:5px 8px;border-radius:5px;cursor:pointer;">
+            ❌
+          </button>
+        </td>
       </tr>
     `;
   });
+}
+
+function deleteSong(index) {
+  songs.splice(index, 1);
+  renderTable();
 }
 
 function sortByTuning() {
   songs.sort((a, b) => a.tuning.localeCompare(b.tuning));
   renderTable();
 }
+</script>
 </script>
 
 </body>
