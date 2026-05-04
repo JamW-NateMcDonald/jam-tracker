@@ -68,6 +68,8 @@
   <button onclick="addSong()">Add Song</button>
 </div>
 
+<button onclick="sortByBand()">Sort by Band (A–Z)</button>
+  
 <button onclick="sortByTuning()">Sort by Tuning</button>
 
 <table>
@@ -156,6 +158,21 @@ function deleteSong(index) {
 function sortByTuning() {
   songs.sort((a, b) => a.tuning.localeCompare(b.tuning));
   saveSongs(); // 🔑 SAVE sorted order
+  renderTable();
+}
+
+  function sortByBand() {
+  songs.sort((a, b) => {
+    const bandCompare = a.band.localeCompare(b.band);
+
+    if (bandCompare !== 0) {
+      return bandCompare; // sort by band first
+    }
+
+    // if same band, sort by song name
+    return a.name.localeCompare(b.name);
+  });
+
   renderTable();
 }
 </script>
