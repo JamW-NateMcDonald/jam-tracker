@@ -87,7 +87,6 @@
 </table>
 
 <script>
-<script>
 let songs = [];
 
 function addSong() {
@@ -141,7 +140,13 @@ function sortByTuning() {
   songs.sort((a, b) => a.tuning.localeCompare(b.tuning));
   renderTable();
 }
-</script>
+  <script>
+let songs = [];
+
+function addSong() {
+  console.log("clicked"); // test
+}
+  
 </script>
 
 </body>
