@@ -1,10 +1,141 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Jam Tracker</title>
+  <title>index.html</title>
+  <style>
+    body {
+      font-family: Arial;
+      background: #0f172a;
+      color: white;
+      padding: 20px;
+    }
+    h1 { text-align: center; }
+
+    input, select {
+      padding: 6px;
+      margin: 5px;
+    }
+
+    button {
+      padding: 8px;
+      margin: 5px;
+      cursor: pointer;
+    }
+
+    table {
+      width: 100%;
+      margin-top: 20px;
+      border-collapse: collapse;
+    }
+
+    th, td {
+      padding: 10px;
+      border-bottom: 1px solid #333;
+      text-align: center;
+    }
+
+    th { cursor: pointer; }
+
+    a { color: #38bdf8; }
+  </style>
 </head>
+
 <body>
-    <h1>Welcome to the Jam Tracker</h1>
-    <!-- Content goes here -->
+
+<h1>🎸 Jam Tracker</h1>
+
+<div>
+  <input id="song" placeholder="Song Name">
+  <input id="band" placeholder="Band Name">
+  <input id="album" placeholder="Album">
+
+  <select id="tuning">
+    <option>Standard (6)</option>
+    <option>Drop D (6)</option>
+    <option>Drop C (6)</option>
+    <option>7 String</option>
+  </select>
+
+  <input id="songsterr" placeholder="Songsterr Link">
+  <input id="spotify" placeholder="Spotify Link">
+
+  <select id="difficulty">
+    <option>Easy</option>
+    <option>Medium</option>
+    <option>Hard</option>
+  </select>
+
+  <select id="status">
+    <option>Want to Learn</option>
+    <option>Learning</option>
+    <option>Learned</option>
+  </select>
+
+  <button onclick="addSong()">Add Song</button>
+</div>
+
+<button onclick="sortByTuning()">Sort by Tuning</button>
+
+<table>
+  <thead>
+    <tr>
+      <th>Song</th>
+      <th>Band</th>
+      <th>Album</th>
+      <th>Tuning</th>
+      <th>Tabs</th>
+      <th>Spotify</th>
+      <th>Difficulty</th>
+      <th>Status</th>
+    </tr>
+  </thead>
+  <tbody id="tableBody"></tbody>
+</table>
+
+<script>
+let songs = [];
+
+function addSong() {
+  let song = {
+    name: document.getElementById("song").value,
+    band: document.getElementById("band").value,
+    album: document.getElementById("album").value,
+    tuning: document.getElementById("tuning").value,
+    songsterr: document.getElementById("songsterr").value,
+    spotify: document.getElementById("spotify").value,
+    difficulty: document.getElementById("difficulty").value,
+    status: document.getElementById("status").value
+  };
+
+  songs.push(song);
+  renderTable();
+}
+
+function renderTable() {
+  let table = document.getElementById("tableBody");
+  table.innerHTML = "";
+
+  songs.forEach(s => {
+    table.innerHTML += `
+      <tr>
+        <td>${s.name}</td>
+        <td>${s.band}</td>
+        <td>${s.album}</td>
+        <td>${s.tuning}</td>
+        <td><a href="${s.songsterr}" target="_blank">Tabs</a></td>
+        <td><a href="${s.spotify}" target="_blank">Listen</a></td>
+        <td>${s.difficulty}</td>
+        <td>${s.status}</td>
+      </tr>
+    `;
+  });
+}
+
+function sortByTuning() {
+  songs.sort((a, b) => a.tuning.localeCompare(b.tuning));
+  renderTable();
+}
+</script>
+
 </body>
 </html>
