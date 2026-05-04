@@ -86,66 +86,46 @@
   <tbody id="tableBody"></tbody>
 </table>
 
-<script type="module">
-import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
-import {
-  getFirestore,
-  collection,
-  addDoc,
-  deleteDoc,
-  doc,
-  onSnapshot,
-  query,
-  orderBy
-} from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+<script>
+let songs = JSON.parse(localStorage.getItem("songs")) || [];
 
-// 🔑 PASTE YOUR CONFIG HERE
-<?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
-<plist version="1.0">
-<dict>
-	<key>API_KEY</key>
-	<string>AIzaSyC5WZtXrVG6MVxvmMlLUIcp4-WYQSYn1kk</string>
-	<key>GCM_SENDER_ID</key>
-	<string>315882525739</string>
-	<key>PLIST_VERSION</key>
-	<string>1</string>
-	<key>BUNDLE_ID</key>
-	<string>1.0</string>
-	<key>PROJECT_ID</key>
-	<string>jam-tracker-1</string>
-	<key>STORAGE_BUCKET</key>
-	<string>jam-tracker-1.firebasestorage.app</string>
-	<key>IS_ADS_ENABLED</key>
-	<false></false>
-	<key>IS_ANALYTICS_ENABLED</key>
-	<false></false>
-	<key>IS_APPINVITE_ENABLED</key>
-	<true></true>
-	<key>IS_GCM_ENABLED</key>
-	<true></true>
-	<key>IS_SIGNIN_ENABLED</key>
-	<true></true>
-	<key>GOOGLE_APP_ID</key>
-	<string>1:315882525739:ios:4e40e5c74af432f645c66e</string>
-</dict>
-</plist>
-};
+// Load saved songs on startup
+renderTable();
 
-const app = initializeApp(firebaseConfig);
-const db = getFirestore(app);
+function saveSongs() {
+  localStorage.setItem("songs", JSON.stringify(songs));
+}
 
-const songsRef = collection(db, "songs");
+function addSong() {
+  let song = {
+    name: document.getElementById("song").value,
+    band: document.getElementById("band").value,
+    album: document.getElementById("album").value,
+    tuning: document.getElementById("tuning").value,
+    songsterr: document.getElementById("songsterr").value,
+    spotify: document.getElementById("spotify").value,
+    difficulty: document.getElementById("difficulty").value,
+    status: document.getElementById("status").value
+  };
 
-// 🔴 REAL-TIME LISTENER (THIS IS THE MAGIC)
-onSnapshot(query(songsRef, orderBy("tuning")), (snapshot) => {
-  const table = document.getElementById("tableBody");
+  songs.push(song);
+  saveSongs(); // 🔑 SAVE
+  renderTable();
+
+  // Clear inputs
+  document.getElementById("song").value = "";
+  document.getElementById("band").value = "";
+  document.getElementById("album").value = "";
+  document.getElementById("tuning").value = "";
+  document.getElementById("songsterr").value = "";
+  document.getElementById("spotify").value = "";
+}
+
+function renderTable() {
+  let table = document.getElementById("tableBody");
   table.innerHTML = "";
 
-  snapshot.forEach((docSnap) => {
-    const s = docSnap.data();
-    const id = docSnap.id;
-
+  songs.forEach((s, index) => {
     table.innerHTML += `
       <tr>
         <td>${s.name}</td>
@@ -157,7 +137,7 @@ onSnapshot(query(songsRef, orderBy("tuning")), (snapshot) => {
         <td>${s.difficulty}</td>
         <td>${s.status}</td>
         <td>
-          <button onclick="deleteSong('${id}')"
+          <button onclick="deleteSong(${index})"
             style="background:red;color:white;border:none;padding:5px 8px;border-radius:5px;cursor:pointer;">
             ❌
           </button>
@@ -165,39 +145,19 @@ onSnapshot(query(songsRef, orderBy("tuning")), (snapshot) => {
       </tr>
     `;
   });
-});
+}
 
-// ➕ ADD SONG
-window.addSong = async function () {
-  await addDoc(songsRef, {
-    name: document.getElementById("song").value,
-    band: document.getElementById("band").value,
-    album: document.getElementById("album").value,
-    tuning: document.getElementById("tuning").value,
-    songsterr: document.getElementById("songsterr").value,
-    spotify: document.getElementById("spotify").value,
-    difficulty: document.getElementById("difficulty").value,
-    status: document.getElementById("status").value
-  });
+function deleteSong(index) {
+  songs.splice(index, 1);
+  saveSongs(); // 🔑 SAVE after delete
+  renderTable();
+}
 
-  // clear inputs
-  document.getElementById("song").value = "";
-  document.getElementById("band").value = "";
-  document.getElementById("album").value = "";
-  document.getElementById("tuning").value = "";
-  document.getElementById("songsterr").value = "";
-  document.getElementById("spotify").value = "";
-};
-
-// ❌ DELETE SONG
-window.deleteSong = async function (id) {
-  await deleteDoc(doc(db, "songs", id));
-};
-
-// sorting handled by Firebase now
-window.sortByTuning = function () {
-  alert("Already auto-sorted by tuning 🔥");
-};
+function sortByTuning() {
+  songs.sort((a, b) => a.tuning.localeCompare(b.tuning));
+  saveSongs(); // 🔑 SAVE sorted order
+  renderTable();
+}
 </script>
 
 </body>
