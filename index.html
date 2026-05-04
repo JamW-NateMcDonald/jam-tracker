@@ -4,8 +4,8 @@
   <title>index.html</title>
   <style>
     body {
-      font-family: Arial;
-      background: #0f172a;
+      font-family: Helvetica;
+      background: #8B0000;
       color: white;
       padding: 20px;
     }
@@ -42,7 +42,7 @@
 
 <body>
 
-<h1>🎸 Jam Tracker</h1>
+<h1>Jam Tracker</h1>
 
 <div>
   <input id="song" placeholder="Song Name">
@@ -87,11 +87,16 @@
 </table>
 
 <script>
-let songs = [];
+let songs = JSON.parse(localStorage.getItem("songs")) || [];
+
+// Load saved songs on startup
+renderTable();
+
+function saveSongs() {
+  localStorage.setItem("songs", JSON.stringify(songs));
+}
 
 function addSong() {
-  console.log("clicked");
-  
   let song = {
     name: document.getElementById("song").value,
     band: document.getElementById("band").value,
@@ -104,7 +109,16 @@ function addSong() {
   };
 
   songs.push(song);
+  saveSongs(); // 🔑 SAVE
   renderTable();
+
+  // Clear inputs
+  document.getElementById("song").value = "";
+  document.getElementById("band").value = "";
+  document.getElementById("album").value = "";
+  document.getElementById("tuning").value = "";
+  document.getElementById("songsterr").value = "";
+  document.getElementById("spotify").value = "";
 }
 
 function renderTable() {
@@ -124,7 +138,7 @@ function renderTable() {
         <td>${s.status}</td>
         <td>
           <button onclick="deleteSong(${index})"
-            style="background:Red;color:white;border:none;padding:5px 8px;border-radius:5px;cursor:pointer;">
+            style="background:red;color:white;border:none;padding:5px 8px;border-radius:5px;cursor:pointer;">
             ❌
           </button>
         </td>
@@ -135,15 +149,14 @@ function renderTable() {
 
 function deleteSong(index) {
   songs.splice(index, 1);
+  saveSongs(); // 🔑 SAVE after delete
   renderTable();
 }
 
 function sortByTuning() {
   songs.sort((a, b) => a.tuning.localeCompare(b.tuning));
+  saveSongs(); // 🔑 SAVE sorted order
   renderTable();
-
-function addSong() {
-  alert("it works");
 }
 </script>
 
