@@ -71,6 +71,15 @@
     a {
       color: #38bdf8;
     }
+a {
+  color: red;
+  text-decoration: none;
+}
+
+a:hover {
+  color: darkred;
+  text-decoration: underline;
+}  
   </style>
 </head>
 
@@ -174,7 +183,7 @@ function renderTable() {
   <button onclick="editSong(${index})">Edit</button>
         <td>
           <button onclick="deleteSong(${index})"
-            style="background:red;color:white;border:none;padding:5px 8px;border-radius:5px;">
+            style="background:none;color:white;border:none;padding:5px 8px;border-radius:5px;">
             ❌
           </button>
         </td>
