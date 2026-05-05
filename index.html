@@ -166,25 +166,43 @@ let editIndex = null;
 renderTable();
 
 function saveSongs() {
-  localStorage.setItem("songs", JSON.stringify(songs));
+  try {
+    localStorage.setItem("songs", JSON.stringify(songs));
+    console.log("saved", songs);
+  } catch (e) {
+    console.error("Save failed:", e);
+  }
 }
 
 function addSong() {
+  console.log("add clicked");
+
+  const songEl = document.getElementById("song");
+  const bandEl = document.getElementById("band");
+
+  if (!songEl || !bandEl) {
+    console.error("Missing input fields");
+    return;
+  }
+
+  const songInput = songEl.value.trim();
+  const bandInput = bandEl.value.trim();
+
+  if (!songInput || !bandInput) {
+    alert("Please enter song name and band");
+    return;
+  }
+
   const song = {
-    name: document.getElementById("song").value.trim(),
-    band: document.getElementById("band").value.trim(),
+    name: songInput,
+    band: bandInput,
     album: document.getElementById("album").value.trim(),
     tuning: document.getElementById("tuning").value.trim(),
     songsterr: document.getElementById("songsterr").value.trim(),
     spotify: document.getElementById("spotify").value.trim(),
-    difficulty: document.getElementById("difficulty").value,
-    status: document.getElementById("status").value
+    difficulty: document.getElementById("difficulty").value || "",
+    status: document.getElementById("status").value || ""
   };
-
-  if (!song.name || !song.band) {
-    alert("Please enter song name and band");
-    return;
-  }
 
   if (editIndex !== null) {
     songs[editIndex] = song;
@@ -192,6 +210,8 @@ function addSong() {
   } else {
     songs.push(song);
   }
+
+  console.log("songs array now:", songs);
 
   saveSongs();
   renderTable();
