@@ -216,39 +216,35 @@ function renderTable() {
   const search = document.getElementById("search").value.toLowerCase();
   const tuningFilter = document.getElementById("tuningFilter").value;
 
-  songs
-    .filter(s => {
-      const matchesSearch =
-        s.name.toLowerCase().includes(search) ||
-        s.band.toLowerCase().includes(search);
+  songs.forEach((s, realIndex) => {
+    const matchesSearch =
+      s.name.toLowerCase().includes(search) ||
+      s.band.toLowerCase().includes(search);
 
-      const matchesTuning =
-        !tuningFilter || s.tuning === tuningFilter;
+    const matchesTuning =
+      !tuningFilter || s.tuning === tuningFilter;
 
-      return matchesSearch && matchesTuning;
-    })
-    .forEach((s, index) => {
-      const row = document.createElement("tr");
+    if (!matchesSearch || !matchesTuning) return;
 
-      row.innerHTML = `
-        <td>${s.name}</td>
-        <td>${s.band}</td>
-        <td>${s.album || ""}</td>
-        <td>${s.tuning || ""}</td>
-        <td>${s.songsterr ? `<a href="${s.songsterr}" target="_blank">Tabs</a>` : ""}</td>
-        <td>${s.spotify ? `<a href="${s.spotify}" target="_blank">Listen</a>` : ""}</td>
-        <td class="difficulty-${(s.difficulty || "").toLowerCase()}">
-          ${s.difficulty || ""}
-        </td>
-        <td>${s.status || ""}</td>
-        <td>
-          <button onclick="startEdit(${index})">Edit</button>
-          <button onclick="deleteSong(${index})">❌</button>
-        </td>
-      `;
+    const row = document.createElement("tr");
 
-      table.appendChild(row);
-    });
+    row.innerHTML = `
+      <td>${s.name}</td>
+      <td>${s.band}</td>
+      <td>${s.album || ""}</td>
+      <td>${s.tuning || ""}</td>
+      <td>${s.songsterr ? `<a href="${s.songsterr}" target="_blank">Tabs</a>` : ""}</td>
+      <td>${s.spotify ? `<a href="${s.spotify}" target="_blank">Listen</a>` : ""}</td>
+      <td class="difficulty-${(s.difficulty || "").toLowerCase()}">${s.difficulty || ""}</td>
+      <td>${s.status || ""}</td>
+      <td>
+        <button onclick="startEdit(${realIndex})">Edit</button>
+        <button onclick="deleteSong(${realIndex})">❌</button>
+      </td>
+    `;
+
+    table.appendChild(row);
+  });
 }
 
 function deleteSong(index) {
