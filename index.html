@@ -150,9 +150,19 @@ function saveSongs() {
 }
 
 function addSong() {
+  console.log("clicked");
+  const songInput = document.getElementById("song").value;
+  const bandInput = document.getElementById("band").value;
+
+  // basic validation (prevents empty adds)
+  if (!songInput || !bandInput) {
+    alert("Please enter at least a song name and band");
+    return;
+  }
+
   let song = {
-    name: document.getElementById("song").value,
-    band: document.getElementById("band").value,
+    name: songInput,
+    band: bandInput,
     album: document.getElementById("album").value,
     tuning: document.getElementById("tuning").value,
     songsterr: document.getElementById("songsterr").value,
@@ -165,7 +175,11 @@ function addSong() {
     songs[editIndex] = song;
     editIndex = null;
   } else {
+    songs.push(song);
   }
+
+  saveSongs();
+  renderTable();
 
   // reset form
   document.getElementById("song").value = "";
