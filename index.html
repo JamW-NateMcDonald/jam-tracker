@@ -116,6 +116,7 @@
       <th>Spotify</th>
       <th>Difficulty</th>
       <th>Status</th>
+       <th>Actions</th> <!-- add this -->
     </tr>
   </thead>
   <tbody id="tableBody"></tbody>
@@ -170,6 +171,8 @@ function renderTable() {
         <td>${s.difficulty}</td>
         <td>${s.status}</td>
         <td>
+  <button onclick="editSong(${index})">Edit</button>
+        <td>
           <button onclick="deleteSong(${index})"
             style="background:red;color:white;border:none;padding:5px 8px;border-radius:5px;">
             ❌
@@ -201,6 +204,14 @@ function sortByTuning() {
   songs.sort((a, b) => a.tuning.localeCompare(b.tuning));
   saveSongs();
   renderTable();
+function editSong(index) {
+  const newStatus = prompt("Enter new status: want to learn / learning / learned");
+
+  if (newStatus) {
+    songs[index].status = newStatus;
+    saveSongs();
+    renderSongs();
+  }
 }
 </script>
 
