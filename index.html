@@ -65,7 +65,13 @@
       background: #5a1a1a;
       transform: scale(1.03);
     }
-
+<select id="difficultyFilter" onchange="renderTable()">
+  <option value="all">All Levels</option>
+  <option value="Beginner">Beginner</option>
+  <option value="Intermediate">Intermediate</option>
+  <option value="Advanced">Advanced</option>
+</select>
+    
     table {
       width: 100%;
       margin-top: 20px;
@@ -147,13 +153,12 @@
 <div>
   <input id="search" placeholder="Search songs or bands..." oninput="renderTable()">
 
-  <select id="tuningFilter" onchange="renderTable()">
-    <option value="">All Tunings</option>
-    <option value="E Standard">E Standard</option>
-    <option value="Drop D">Drop D</option>
-    <option value="D Standard">D Standard</option>
-    <option value="Drop C">Drop C</option>
-  </select>
+  <select id="difficultyFilter" onchange="filterSongs()">
+  <option value="all">All Levels</option>
+  <option value="beginner">Beginner</option>
+  <option value="intermediate">Intermediate</option>
+  <option value="advanced">Advanced</option>
+</select>
 
   <button onclick="sortByBand()">Sort by Band (A–Z)</button>
   <button onclick="sortByTuning()">Sort by Tuning</button>
@@ -251,17 +256,17 @@ function renderTable() {
   table.innerHTML = "";
 
   const search = document.getElementById("search").value.toLowerCase();
-  const tuningFilter = document.getElementById("tuningFilter").value;
-
+const difficultyFilter = document.getElementById("difficultyFilter").value;
+  
   songs.forEach((s, realIndex) => {
     const matchesSearch =
       s.name.toLowerCase().includes(search) ||
       s.band.toLowerCase().includes(search);
 
-    const matchesTuning =
-      !tuningFilter || s.tuning === tuningFilter;
+   const matchesDifficulty =
+  difficultyFilter === "all" || s.difficulty === difficultyFilter;
 
-    if (!matchesSearch || !matchesTuning) return;
+if (!matchesSearch || !matchesDifficulty) return;
 
     const row = document.createElement("tr");
 
