@@ -157,31 +157,31 @@ function addSong() {
 }
 
 function renderTable() {
-  let table = document.getElementById("tableBody");
-  table.innerHTML = "";
+  let container = document.getElementById("cardContainer");
+  container.innerHTML = "";
 
   songs.forEach((s, index) => {
-    table.innerHTML += `
-      <tr>
-        <td>${s.name}</td>
-        <td>${s.band}</td>
-        <td>${s.album}</td>
-        <td>${s.tuning}</td>
-        <td><a href="${s.songsterr}" target="_blank">Tabs</a></td>
-        <td><a href="${s.spotify}" target="_blank">Listen</a></td>
-        <td>${s.difficulty}</td>
-        <td>${s.status}</td>
-        <td>
-          <button onclick="deleteSong(${index})"
-            style="background:red;color:white;border:none;padding:5px 8px;border-radius:5px;cursor:pointer;">
-            ❌
-          </button>
-        </td>
-      </tr>
+    container.innerHTML += `
+      <div class="card">
+        <h3>${s.name}</h3>
+        <p><b>Band:</b> ${s.band}</p>
+        <p><b>Album:</b> ${s.album}</p>
+        <p><b>Tuning:</b> ${s.tuning}</p>
+        <p><b>Difficulty:</b> ${s.difficulty}</p>
+        <p><b>Status:</b> ${s.status}</p>
+
+        <a href="${s.songsterr}" target="_blank">🎸 Tabs</a>
+        <a href="${s.spotify}" target="_blank">🎧 Spotify</a>
+
+        <br>
+
+        <button class="deleteBtn" onclick="deleteSong(${index})">
+          ❌ Delete
+        </button>
+      </div>
     `;
   });
 }
-
 function deleteSong(index) {
   songs.splice(index, 1);
   saveSongs(); // 🔑 SAVE after delete
