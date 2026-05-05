@@ -149,8 +149,6 @@ function saveSongs() {
   localStorage.setItem("songs", JSON.stringify(songs));
 }
 
-let editIndex = null;
-
 function addSong() {
   let song = {
     name: document.getElementById("song").value,
@@ -168,8 +166,6 @@ function addSong() {
     editIndex = null;
   } else {
     songs.push(song);          // add new song
-  }
-
   saveSongs();
   renderTable();
 
