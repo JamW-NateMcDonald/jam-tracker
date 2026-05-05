@@ -162,12 +162,10 @@ function addSong() {
   };
 
   if (editIndex !== null) {
-    songs[editIndex] = song;   // update existing song
+    songs[editIndex] = song;
     editIndex = null;
   } else {
-    songs.push(song);          // add new song
-  saveSongs();
-  renderTable();
+  }
 
   // reset form
   document.getElementById("song").value = "";
@@ -176,20 +174,8 @@ function addSong() {
   document.getElementById("tuning").value = "";
   document.getElementById("songsterr").value = "";
   document.getElementById("spotify").value = "";
-  document.getElementById("difficulty").value = "";
-  document.getElementById("status").value = "";
-}
-
-  songs.push(song);
-  saveSongs();
-  renderTable();
-
-  document.getElementById("song").value = "";
-  document.getElementById("band").value = "";
-  document.getElementById("album").value = "";
-  document.getElementById("tuning").value = "";
-  document.getElementById("songsterr").value = "";
-  document.getElementById("spotify").value = "";
+  document.getElementById("difficulty").selectedIndex = 0;
+  document.getElementById("status").selectedIndex = 0;
 }
 
 function renderTable() {
