@@ -8,6 +8,10 @@
   <link href="https://fonts.googleapis.com/css2?family=Righteous&display=swap" rel="stylesheet">
 
   <style>
+    @font-face {
+  font-family: "GojiraBlack";
+  src: url("GojiraBlack.ttf");
+}
     body {
       font-family: 'Righteous', sans-serif;
       background: radial-gradient(circle at center,
@@ -24,8 +28,20 @@
     }
 
     h1 {
- text-align: center;
-    }
+  font-family: "GojiraBlack", sans-serif;
+  font-size: 56px;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  text-align: center;
+  margin: 30px 0;
+
+  color: #ffffff;
+
+  text-shadow:
+    0 0 8px rgba(0, 255, 200, 0.6),
+    0 0 20px rgba(0, 255, 200, 0.4),
+    0 0 40px rgba(0, 255, 200, 0.2);
+}
   
     input, select {
       padding: 6px;
