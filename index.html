@@ -1,3 +1,136 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Jam Tracker</title>
+
+  <!-- 🎸 Google Font -->
+ <link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Righteous&display=swap" rel="stylesheet">
+
+  <style>
+    body {
+      font-family: 'Righteous', sans-serif;
+      background: radial-gradient(circle at center,
+        #5a1a1a 0%,
+        #2e1717 40%,
+        #120909 100%
+      );
+      color: white;
+      padding: 20px;
+    }
+
+    /* ✨ smooth UI transitions */
+    * {
+      transition: all 0.2s ease;
+    }
+
+    h1 {
+      text-align: center;
+    }
+
+    input, select {
+      padding: 6px;
+      margin: 5px;
+      border-radius: 5px;
+      border: none;
+      outline: none;
+    }
+
+    button {
+      padding: 8px;
+      margin: 5px;
+      cursor: pointer;
+      border-radius: 5px;
+      border: none;
+      background: #3a1b1b;
+      color: white;
+    }
+
+    button:hover {
+      background: #5a1a1a;
+      transform: scale(1.03);
+    }
+
+    table {
+      width: 100%;
+      margin-top: 20px;
+      border-collapse: collapse;
+    }
+
+    th, td {
+      padding: 10px;
+      border-bottom: 1px solid #333;
+      text-align: center;
+    }
+
+    th {
+      cursor: pointer;
+    }
+
+    a {
+      color: #38bdf8;
+    }
+a {
+  color: red;
+  text-decoration: none;
+}
+
+a:hover {
+  color: darkred;
+  text-decoration: underline;
+}  
+  </style>
+</head>
+
+<body>
+
+<h1>Jam Tracker</h1>
+
+<div>
+  <input id="song" placeholder="Song Name">
+  <input id="band" placeholder="Band Name">
+  <input id="album" placeholder="Album">
+
+<input id="tuning" placeholder="Tuning">  
+  <input id="songsterr" placeholder="Songsterr Link">
+  <input id="spotify" placeholder="Spotify Link">
+
+  <select id="difficulty">
+    <option>Easy</option>
+    <option>Medium</option>
+    <option>Hard</option>
+  </select>
+
+  <select id="status">
+    <option>Want to Learn</option>
+    <option>Learning</option>
+    <option>Learned</option>
+  </select>
+
+  <button onclick="addSong()">Add Song</button>
+</div>
+
+<button onclick="sortByBand()">Sort by Band (A–Z)</button>
+  
+<button onclick="sortByTuning()">Sort by Tuning</button>
+<table>
+  <thead>
+    <tr>
+      <th>Song</th>
+      <th>Band</th>
+      <th>Album</th>
+      <th>Tuning</th>
+      <th>Tabs</th>
+      <th>Spotify</th>
+      <th>Difficulty</th>
+      <th>Status</th>
+       <th>Actions</th> <!-- add this -->
+    </tr>
+  </thead>
+  <tbody id="tableBody"></tbody>
+</table>
+
 <script>
 let songs = JSON.parse(localStorage.getItem("songs")) || [];
 
@@ -88,3 +221,6 @@ function editSong(index) {
   }
 }
 </script>
+
+</body>
+</html>
