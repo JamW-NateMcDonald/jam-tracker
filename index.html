@@ -80,6 +80,20 @@ a:hover {
   color: darkred;
   text-decoration: underline;
 }  
+.difficulty-easy {
+  color: #22c55e;
+  font-weight: bold;
+}
+
+.difficulty-medium {
+  color: #facc15;
+  font-weight: bold;
+}
+
+.difficulty-hard {
+  color: #ef4444;
+  font-weight: bold;
+}    
   </style>
 </head>
 
@@ -122,6 +136,7 @@ a:hover {
 <button onclick="sortByBand()">Sort by Band (A–Z)</button>
   
 <button onclick="sortByTuning()">Sort by Tuning</button>
+<input id="search" placeholder="Search songs or bands..." oninput="renderTable()">
 <table>
   <thead>
     <tr>
@@ -197,7 +212,21 @@ function renderTable() {
   const table = document.getElementById("tableBody");
   table.innerHTML = "";
 
-  songs.forEach((s, index) => {
+const search = document.getElementById("search").value.toLowerCase();
+const tuningFilter = document.getElementById("tuningFilter").value;
+
+songs
+  .filter(s => {
+    const matchesSearch =
+      s.name.toLowerCase().includes(search) ||
+      s.band.toLowerCase().includes(search);
+
+    const matchesTuning =
+      !tuningFilter || s.tuning === tuningFilter;
+
+    return matchesSearch && matchesTuning;
+  })
+  .forEach((s, index) => {   
     const row = document.createElement("tr");
 
     row.innerHTML = `
@@ -207,7 +236,9 @@ function renderTable() {
       <td>${s.tuning || ""}</td>
       <td>${s.songsterr ? `<a href="${s.songsterr}" target="_blank">Tabs</a>` : ""}</td>
       <td>${s.spotify ? `<a href="${s.spotify}" target="_blank">Listen</a>` : ""}</td>
-      <td>${s.difficulty || ""}</td>
+    <td class="difficulty-${(s.difficulty || "").toLowerCase()}">
+  ${s.difficulty || ""}
+</td>
       <td>${s.status || ""}</td>
       <td>
         <button onclick="startEdit(${index})">Edit</button>
