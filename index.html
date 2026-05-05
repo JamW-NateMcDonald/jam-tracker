@@ -124,7 +124,6 @@
 <script>
 let songs = JSON.parse(localStorage.getItem("songs")) || [];
 
-// Load saved songs on startup
 renderTable();
 
 function saveSongs() {
@@ -144,10 +143,9 @@ function addSong() {
   };
 
   songs.push(song);
-  saveSongs(); // 🔑 SAVE
+  saveSongs();
   renderTable();
 
-  // Clear inputs
   document.getElementById("song").value = "";
   document.getElementById("band").value = "";
   document.getElementById("album").value = "";
@@ -157,55 +155,51 @@ function addSong() {
 }
 
 function renderTable() {
-  let container = document.getElementById("cardContainer");
-  container.innerHTML = "";
+  let table = document.getElementById("tableBody");
+  table.innerHTML = "";
 
   songs.forEach((s, index) => {
-    container.innerHTML += `
-      <div class="card">
-        <h3>${s.name}</h3>
-        <p><b>Band:</b> ${s.band}</p>
-        <p><b>Album:</b> ${s.album}</p>
-        <p><b>Tuning:</b> ${s.tuning}</p>
-        <p><b>Difficulty:</b> ${s.difficulty}</p>
-        <p><b>Status:</b> ${s.status}</p>
-
-        <a href="${s.songsterr}" target="_blank">🎸 Tabs</a>
-        <a href="${s.spotify}" target="_blank">🎧 Spotify</a>
-
-        <br>
-
-        <button class="deleteBtn" onclick="deleteSong(${index})">
-          ❌ Delete
-        </button>
-      </div>
+    table.innerHTML += `
+      <tr>
+        <td>${s.name}</td>
+        <td>${s.band}</td>
+        <td>${s.album}</td>
+        <td>${s.tuning}</td>
+        <td><a href="${s.songsterr}" target="_blank">Tabs</a></td>
+        <td><a href="${s.spotify}" target="_blank">Listen</a></td>
+        <td>${s.difficulty}</td>
+        <td>${s.status}</td>
+        <td>
+          <button onclick="deleteSong(${index})"
+            style="background:red;color:white;border:none;padding:5px 8px;border-radius:5px;">
+            ❌
+          </button>
+        </td>
+      </tr>
     `;
   });
 }
+
 function deleteSong(index) {
   songs.splice(index, 1);
-  saveSongs(); // 🔑 SAVE after delete
+  saveSongs();
+  renderTable();
+}
+
+function sortByBand() {
+  songs.sort((a, b) => {
+    const bandCompare = a.band.localeCompare(b.band);
+    if (bandCompare !== 0) return bandCompare;
+    return a.name.localeCompare(b.name);
+  });
+
+  saveSongs();
   renderTable();
 }
 
 function sortByTuning() {
   songs.sort((a, b) => a.tuning.localeCompare(b.tuning));
-  saveSongs(); // 🔑 SAVE sorted order
-  renderTable();
-}
-
-  function sortByBand() {
-  songs.sort((a, b) => {
-    const bandCompare = a.band.localeCompare(b.band);
-
-    if (bandCompare !== 0) {
-      return bandCompare; // sort by band first
-    }
-
-    // if same band, sort by song name
-    return a.name.localeCompare(b.name);
-  });
-
+  saveSongs();
   renderTable();
 }
 </script>
