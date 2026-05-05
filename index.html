@@ -140,9 +140,10 @@ a:hover {
 </table>
 
 <script>
-let editIndex = null;
 let songs = JSON.parse(localStorage.getItem("songs")) || [];
+let editIndex = null;
 
+// run on load
 renderTable();
 
 function saveSongs() {
@@ -150,23 +151,21 @@ function saveSongs() {
 }
 
 function addSong() {
-  console.log("clicked");
-  const songInput = document.getElementById("song").value;
-  const bandInput = document.getElementById("band").value;
+  const songInput = document.getElementById("song").value.trim();
+  const bandInput = document.getElementById("band").value.trim();
 
-  // basic validation (prevents empty adds)
   if (!songInput || !bandInput) {
     alert("Please enter at least a song name and band");
     return;
   }
 
-  let song = {
+  const song = {
     name: songInput,
     band: bandInput,
-    album: document.getElementById("album").value,
-    tuning: document.getElementById("tuning").value,
-    songsterr: document.getElementById("songsterr").value,
-    spotify: document.getElementById("spotify").value,
+    album: document.getElementById("album").value.trim(),
+    tuning: document.getElementById("tuning").value.trim(),
+    songsterr: document.getElementById("songsterr").value.trim(),
+    spotify: document.getElementById("spotify").value.trim(),
     difficulty: document.getElementById("difficulty").value,
     status: document.getElementById("status").value
   };
@@ -180,8 +179,10 @@ function addSong() {
 
   saveSongs();
   renderTable();
+  resetForm();
+}
 
-  // reset form
+function resetForm() {
   document.getElementById("song").value = "";
   document.getElementById("band").value = "";
   document.getElementById("album").value = "";
@@ -193,26 +194,28 @@ function addSong() {
 }
 
 function renderTable() {
-  let table = document.getElementById("tableBody");
+  const table = document.getElementById("tableBody");
   table.innerHTML = "";
 
   songs.forEach((s, index) => {
-    table.innerHTML += `
-      <tr>
-        <td>${s.name}</td>
-        <td>${s.band}</td>
-        <td>${s.album}</td>
-        <td>${s.tuning}</td>
-        <td><a href="${s.songsterr}" target="_blank">Tabs</a></td>
-        <td><a href="${s.spotify}" target="_blank">Listen</a></td>
-        <td>${s.difficulty}</td>
-        <td>${s.status}</td>
-        <td>
-          <button onclick="editSong(${index})">Edit</button>
-          <button onclick="deleteSong(${index})">❌</button>
-        </td>
-      </tr>
+    const row = document.createElement("tr");
+
+    row.innerHTML = `
+      <td>${s.name}</td>
+      <td>${s.band}</td>
+      <td>${s.album || ""}</td>
+      <td>${s.tuning || ""}</td>
+      <td>${s.songsterr ? `<a href="${s.songsterr}" target="_blank">Tabs</a>` : ""}</td>
+      <td>${s.spotify ? `<a href="${s.spotify}" target="_blank">Listen</a>` : ""}</td>
+      <td>${s.difficulty || ""}</td>
+      <td>${s.status || ""}</td>
+      <td>
+        <button onclick="startEdit(${index})">Edit</button>
+        <button onclick="deleteSong(${index})">❌</button>
+      </td>
     `;
+
+    table.appendChild(row);
   });
 }
 
@@ -234,19 +237,25 @@ function sortByBand() {
 }
 
 function sortByTuning() {
-  songs.sort((a, b) => a.tuning.localeCompare(b.tuning));
+  songs.sort((a, b) => (a.tuning || "").localeCompare(b.tuning || ""));
   saveSongs();
   renderTable();
 }
 
-function editSong(index) {
-  const newStatus = prompt("Enter new status: want to learn / learning / learned");
+// 🔥 MUCH BETTER edit system (fills form instead of prompt)
+function startEdit(index) {
+  const s = songs[index];
 
-  if (newStatus) {
-    songs[index].status = newStatus;
-    saveSongs();
-    renderTable();
-  }
+  document.getElementById("song").value = s.name;
+  document.getElementById("band").value = s.band;
+  document.getElementById("album").value = s.album;
+  document.getElementById("tuning").value = s.tuning;
+  document.getElementById("songsterr").value = s.songsterr;
+  document.getElementById("spotify").value = s.spotify;
+  document.getElementById("difficulty").value = s.difficulty;
+  document.getElementById("status").value = s.status;
+
+  editIndex = index;
 }
 </script>
 
