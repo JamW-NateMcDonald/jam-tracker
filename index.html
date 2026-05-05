@@ -22,7 +22,7 @@
 
     /* ✨ smooth UI transitions */
     * {
-      transition: all 0.2s ease;
+      transition: all 0.4s ease;
     }
 
     h1 {
@@ -96,17 +96,25 @@ a:hover {
   <input id="songsterr" placeholder="Songsterr Link">
   <input id="spotify" placeholder="Spotify Link">
 
+ <div>
+  <label>Difficulty</label>
   <select id="difficulty">
-    <option>Easy</option>
-    <option>Medium</option>
-    <option>Hard</option>
+    <option value="" disabled selected>Select difficulty</option>
+    <option value="Easy">Easy</option>
+    <option value="Medium">Medium</option>
+    <option value="Hard">Hard</option>
   </select>
+</div>
 
+<div>
+  <label>Progress</label>
   <select id="status">
-    <option>Want to Learn</option>
-    <option>Learning</option>
-    <option>Learned</option>
+    <option value="" disabled selected>Select progress</option>
+    <option value="Want to Learn">Want to Learn</option>
+    <option value="Learning">Learning</option>
+    <option value="Learned">Learned</option>
   </select>
+</div>
 
   <button onclick="addSong()">Add Song</button>
 </div>
@@ -132,6 +140,7 @@ a:hover {
 </table>
 
 <script>
+let editIndex = null;
 let songs = JSON.parse(localStorage.getItem("songs")) || [];
 
 renderTable();
@@ -139,6 +148,8 @@ renderTable();
 function saveSongs() {
   localStorage.setItem("songs", JSON.stringify(songs));
 }
+
+let editIndex = null;
 
 function addSong() {
   let song = {
@@ -151,6 +162,27 @@ function addSong() {
     difficulty: document.getElementById("difficulty").value,
     status: document.getElementById("status").value
   };
+
+  if (editIndex !== null) {
+    songs[editIndex] = song;   // update existing song
+    editIndex = null;
+  } else {
+    songs.push(song);          // add new song
+  }
+
+  saveSongs();
+  renderTable();
+
+  // reset form
+  document.getElementById("song").value = "";
+  document.getElementById("band").value = "";
+  document.getElementById("album").value = "";
+  document.getElementById("tuning").value = "";
+  document.getElementById("songsterr").value = "";
+  document.getElementById("spotify").value = "";
+  document.getElementById("difficulty").value = "";
+  document.getElementById("status").value = "";
+}
 
   songs.push(song);
   saveSongs();
