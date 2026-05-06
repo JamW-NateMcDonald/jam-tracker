@@ -50,7 +50,6 @@
       border: none;
       outline: none;
     }
-
     button {
       padding: 8px;
       margin: 5px;
@@ -89,21 +88,10 @@
       text-decoration: underline;
     }
 
-    /* 🎯 Difficulty colors */
-    .difficulty-Easy {
-      color: #22c55e;
-      font-weight: bold;
-    }
-
-    .difficulty-Medium {
-      color: #facc15;
-      font-weight: bold;
-    }
-
-    .difficulty-Hard {
-      color: #ef4444;
-      font-weight: bold;
-    }
+    /* Difficulty colors */
+ .difficulty-easy { color: #22c55e; font-weight: bold; }
+.difficulty-medium { color: #facc15; font-weight: bold; }
+.difficulty-hard { color: #ef4444; font-weight: bold; }
     
   </style>
 </head>
@@ -135,7 +123,7 @@
 
   <div>
     <label>Progress</label>
-    <select id="statusFilter" onchange="renderTable()">
+    <select id="statusFilter" onchange="renderTable()"> 
   <option value="all">All Status</option>
   <option value="Want to Learn">Want to Learn</option>
   <option value="Learning">Learning</option>
@@ -157,7 +145,14 @@
   <option value="Medium">Medium</option>
   <option value="Hard">Hard</option>
 </select>
+<label>Status</label>
 
+<select id="status">
+  <option value="" disabled selected>Select status</option>
+  <option value="Want to Learn">Want to Learn</option>
+  <option value="Learning">Learning</option>
+  <option value="Learned">Learned</option>
+</select>
   <button onclick="sortByBand()">Sort by Band (A–Z)</button>
   <button onclick="sortByTuning()">Sort by Tuning</button>
 </div>
@@ -203,8 +198,6 @@ function addSong() {
   if (!songEl || !bandEl) {
     console.error("Missing input fields");
     return;
-  renderTable();
-  updateStats();
   }
 
   const songInput = songEl.value.trim();
