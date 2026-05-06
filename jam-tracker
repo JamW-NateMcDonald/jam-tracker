@@ -112,6 +112,11 @@
 <body>
 
 <h1>Jam Tracker</h1>
+<div id="stats">
+  <p id="totalCount"></p>
+  <p id="learningCount"></p>
+  <p id="learnedCount"></p>
+</div>
 <div>
   <input id="song" placeholder="Song Name">
   <input id="band" placeholder="Band Name">
@@ -132,12 +137,12 @@
 
   <div>
     <label>Progress</label>
-    <select id="status">
-      <option value="" disabled selected>Select progress</option>
-      <option value="Want to Learn">Want to Learn</option>
-      <option value="Learning">Learning</option>
-      <option value="Learned">Learned</option>
-    </select>
+    <select id="statusFilter" onchange="renderTable()">
+  <option value="all">All Status</option>
+  <option value="Want to Learn">Want to Learn</option>
+  <option value="Learning">Learning</option>
+  <option value="Learned">Learned</option>
+</select>
   </div>
 
   <button onclick="addSong()">Add Song</button>
@@ -148,8 +153,8 @@
 <div>
   <input id="search" placeholder="Search songs or bands..." oninput="renderTable()">
 
-  <select id="difficultyFilter" onchange="filterSongs()">
-  <option value="all">All Levels</option>
+<select id="difficultyFilter" onchange="renderTable()">
+<option value="all">All Levels</option>
   <option value="Easy">Easy</option>
   <option value="Medium">Medium</option>
   <option value="Hard">Hard</option>
@@ -200,6 +205,8 @@ function addSong() {
   if (!songEl || !bandEl) {
     console.error("Missing input fields");
     return;
+  renderTable();
+  updateStats();
   }
 
   const songInput = songEl.value.trim();
@@ -251,17 +258,21 @@ function renderTable() {
   table.innerHTML = "";
 
   const search = document.getElementById("search").value.toLowerCase();
-const difficultyFilter = document.getElementById("difficultyFilter").value;
+  const difficultyFilter = document.getElementById("difficultyFilter").value;
+  const statusFilter = document.getElementById("statusFilter").value;
   
   songs.forEach((s, realIndex) => {
     const matchesSearch =
       s.name.toLowerCase().includes(search) ||
       s.band.toLowerCase().includes(search);
 
-   const matchesDifficulty =
+  const matchesDifficulty =
   difficultyFilter === "all" || s.difficulty === difficultyFilter;
 
-if (!matchesSearch || !matchesDifficulty) return;
+const matchesStatus =
+  statusFilter === "all" || s.status === statusFilter;
+
+if (!matchesSearch || !matchesDifficulty || !matchesStatus) return;
 
     const row = document.createElement("tr");
 
@@ -282,12 +293,14 @@ if (!matchesSearch || !matchesDifficulty) return;
 
     table.appendChild(row);
   });
+  updateStats();
 }
 
 function deleteSong(index) {
   songs.splice(index, 1);
   saveSongs();
   renderTable();
+  updateStats();
 }
 
 function sortByBand() {
@@ -319,6 +332,15 @@ function startEdit(index) {
   document.getElementById("status").value = s.status;
 
   editIndex = index;
+}
+function updateStats() {
+  const total = songs.length;
+  const learning = songs.filter(s => s.status === "Learning").length;
+  const learned = songs.filter(s => s.status === "Learned").length;
+
+  document.getElementById("totalCount").innerText = `Total Songs: ${total}`;
+  document.getElementById("learningCount").innerText = `Learning: ${learning}`;
+  document.getElementById("learnedCount").innerText = `Learned: ${learned}`;
 }
 </script>
 
