@@ -123,7 +123,7 @@
 
 <div>
   <label>Status</label>
-  <select id="status">
+  <select id="statusFilter">
     <option value="" disabled selected>Select status</option>
     <option value="Want to Learn">Want to Learn</option>
     <option value="Learning">Learning</option>
@@ -146,8 +146,8 @@
   <option value="Hard">Hard</option>
 </select>
 
-<select id="status">
-  <option value="" disabled selected>Select status</option>
+<select id="status" onchange="renderTable()">
+  <option value="all">All Statuses</option>
   <option value="Want to Learn">Want to Learn</option>
   <option value="Learning">Learning</option>
   <option value="Learned">Learned</option>
@@ -249,7 +249,7 @@ function renderTable() {
 
   const search = document.getElementById("search").value.toLowerCase();
   const difficultyFilter = document.getElementById("difficultyFilter").value;
-  const statusFilter = document.getElementById("statusFilter").value;
+  const statusFilter = document.getElementById("statusFilter")?.value || "all";
   
   songs.forEach((s, realIndex) => {
     const matchesSearch =
