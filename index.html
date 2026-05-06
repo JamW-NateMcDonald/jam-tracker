@@ -162,8 +162,8 @@
 <table>
   <thead>
     <tr>
-      <th>Song</th>
       <th>Band</th>
+      <th>Song</th>
       <th>Album</th>
       <th>Tuning</th>
       <th>Tabs</th>
@@ -266,8 +266,8 @@ if (!matchesSearch || !matchesDifficulty) return;
     const row = document.createElement("tr");
 
     row.innerHTML = `
-      <td>${s.name}</td>
       <td>${s.band}</td>
+      <td>${s.name}</td>
       <td>${s.album || ""}</td>
       <td>${s.tuning || ""}</td>
       <td>${s.songsterr ? `<a href="${s.songsterr}" target="_blank">Tabs</a>` : ""}</td>
