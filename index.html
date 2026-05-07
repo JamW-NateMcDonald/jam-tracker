@@ -240,7 +240,7 @@ function resetForm() {
   document.getElementById("songsterr").value = "";
   document.getElementById("spotify").value = "";
   document.getElementById("difficulty").selectedIndex = 0;
-  document.getElementById("status").selectedIndex = 0;
+  document.getElementById("statusInput").selectedIndex = 0;
 }
 
 function renderTable() {
@@ -321,7 +321,7 @@ function startEdit(index) {
   document.getElementById("songsterr").value = s.songsterr;
   document.getElementById("spotify").value = s.spotify;
   document.getElementById("difficulty").value = s.difficulty;
-  document.getElementById("status").value = s.status;
+  document.getElementById("statusInput").value = s.status;
 
   editIndex = index;
 }
