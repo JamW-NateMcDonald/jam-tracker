@@ -117,6 +117,29 @@
  .difficulty-easy { color: #22c55e; font-weight: bold; }
 .difficulty-medium { color: #facc15; font-weight: bold; }
 .difficulty-hard { color: #ef4444; font-weight: bold; }
+
+.controls,
+.filters {
+  background: rgba(0,0,0,0.25);
+  padding: 18px;
+  border-radius: 16px;
+  margin-bottom: 20px;
+  border: 1px solid rgba(255,255,255,0.06);
+}
+
+.controls {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+}
+
+.filters {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+}
     
   </style>
 </head>
@@ -161,7 +184,7 @@
 
 <br>
 
-<div>
+<div class="filters">
   <input id="search" placeholder="Search songs or bands..." oninput="renderTable()">
 
 <select id="difficultyFilter" onchange="renderTable()">
