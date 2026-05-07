@@ -146,7 +146,7 @@
   <option value="Hard">Hard</option>
 </select>
 
-<select id="status" onchange="renderTable()">
+<select id="statusFilter" onchange="renderTable()">
   <option value="all">All Statuses</option>
   <option value="Want to Learn">Want to Learn</option>
   <option value="Learning">Learning</option>
@@ -215,7 +215,7 @@ function addSong() {
     songsterr: document.getElementById("songsterr").value.trim(),
     spotify: document.getElementById("spotify").value.trim(),
     difficulty: document.getElementById("difficulty").value || "",
-    status: document.getElementById("status").value || ""
+    status: document.getElementById("statusInput").value || ""
   };
 
   if (editIndex !== null) {
