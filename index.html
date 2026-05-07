@@ -68,7 +68,7 @@
   border: 1px solid rgba(255,255,255,0.08);
 }
   
-   input,
+input,
 select,
 button {
   padding: 10px 14px;
@@ -91,19 +91,41 @@ button {
       background: #6d2323;
       transform: translateY(-2px);
     }
-    //add back here
-    
-    table {
-      width: 100%;
-      margin-top: 20px;
-      border-collapse: collapse;
-    }
 
-    th, td {
-      padding: 10px;
-      border-bottom: 1px solid #333;
-      text-align: center;
-    }
+input,
+select {
+  background: rgba(255,255,255,0.08);
+  color: white;
+}
+    //add back here
+
+table {
+  width: 100%;
+  margin-top: 20px;
+  border-collapse: collapse;
+  overflow: hidden;
+  border-radius: 16px;
+  background: rgba(0,0,0,0.2);
+} 
+
+   th,
+td {
+  padding: 14px;
+  border-bottom: 1px solid rgba(255,255,255,0.06);
+  text-align: center;
+}
+
+th {
+  background: rgba(0,0,0,0.35);
+}
+
+tr:nth-child(even) {
+  background: rgba(255,255,255,0.03);
+}
+
+tr:hover {
+  background: rgba(255,255,255,0.06);
+}
 
     a {
       color: red;
