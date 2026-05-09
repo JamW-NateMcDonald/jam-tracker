@@ -353,13 +353,13 @@ function renderTable() {
   const difficultyFilter = document.getElementById("difficultyFilter").value;
   const statusFilter = document.getElementById("statusFilter")?.value || "all";
 
-const tableBody = document.getElementById("songTableBody");
-tableBody.innerHTML = "";
+const table = document.getElementById("tableBody");
+table.innerHTML = "";
 
 if (!Array.isArray(songs) || songs.length === 0) {
-  tableBody.innerHTML = `
+  table.innerHTML = `
     <tr>
-      <td colspan="6" style="text-align:center; opacity:0.6;">
+      <td colspan="9" style="text-align:center; opacity:0.6;">
         No songs yet 🎸
       </td>
     </tr>
