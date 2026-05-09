@@ -257,6 +257,8 @@ tr:hover {
   <button onclick="sortByTuning()">Sort by Tuning</button>
 </div>
 
+<div id="songForm">
+  
 <div class="table-container">
   <table>
   <thead>
@@ -442,6 +444,13 @@ function startEdit(index) {
   document.getElementById("statusInput").value = s.status;
 
   editIndex = index;
+
+  // ✅ scroll to top smoothly
+  document.getElementById("songForm").scrollIntoView({ behavior: "smooth" });
+  // ✅ optional: focus first input after scroll
+  setTimeout(() => {
+    document.getElementById("song").focus();
+  }, 300);
 }
 function updateStats() {
   const total = songs.length;
