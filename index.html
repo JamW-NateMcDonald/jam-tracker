@@ -371,9 +371,9 @@ if (!Array.isArray(songs) || songs.length === 0) {
   
   songs.forEach((s, realIndex) => {
     const matchesSearch =
-      s.name.toLowerCase().includes(search) ||
-      s.band.toLowerCase().includes(search);
-
+    (s.name || "").toLowerCase().includes(search) 
+    (s.band || "").toLowerCase().includes(search)
+    
   const matchesDifficulty =
   difficultyFilter === "all" || s.difficulty === difficultyFilter;
 
