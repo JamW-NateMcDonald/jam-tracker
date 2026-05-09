@@ -356,10 +356,10 @@ function renderTable() {
 const tableBody = document.getElementById("songTableBody");
 tableBody.innerHTML = "";
 
-if (filteredsongs.length === 0) {
+if (!Array.isArray(songs) || songs.length === 0) {
   tableBody.innerHTML = `
     <tr>
-      <td colspan="9" style="text-align:center; opacity:0.6;">
+      <td colspan="6" style="text-align:center; opacity:0.6;">
         No songs yet 🎸
       </td>
     </tr>
