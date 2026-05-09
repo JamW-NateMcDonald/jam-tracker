@@ -108,6 +108,16 @@ table {
   background: rgba(0,0,0,0.2);
 } 
 
+.table-container {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 0 10px;
+}
+
+.table-container table {
+  width: 100%;
+}
+    
    th,
 td {
   padding: 14px;
@@ -227,7 +237,8 @@ tr:hover {
   <button onclick="sortByTuning()">Sort by Tuning</button>
 </div>
 
-<table>
+<div class="table-container">
+  <table>
   <thead>
     <tr>
       <th>Band</th>
@@ -242,7 +253,8 @@ tr:hover {
     </tr>
   </thead>
   <tbody id="tableBody"></tbody>
-</table>
+  </table>
+</div>
 
 <script>
 let songs = JSON.parse(localStorage.getItem("songs")) || [];
