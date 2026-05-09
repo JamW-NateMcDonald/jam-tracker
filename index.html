@@ -276,8 +276,13 @@ tr:hover {
 </div>
 
 <script>
-let songs = JSON.parse(localStorage.getItem("songs")) || [];
-let editIndex = null;
+let songs = [];
+
+try {
+  songs = JSON.parse(localStorage.getItem("songs")) || [];
+} catch (e) {
+  songs = [];
+}let editIndex = null;
 
 renderTable();
 
@@ -347,13 +352,11 @@ function resetForm() {
 
 function renderTable() {
   const table = document.getElementById("tableBody");
-
+  table.innerHTML = "";
+  
   const search = document.getElementById("search").value.toLowerCase();
   const difficultyFilter = document.getElementById("difficultyFilter").value;
   const statusFilter = document.getElementById("statusFilter")?.value || "all";
-
-const table = document.getElementById("tableBody");
-table.innerHTML = "";
 
 if (!Array.isArray(songs) || songs.length === 0) {
   table.innerHTML = `
