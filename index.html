@@ -211,7 +211,7 @@ tr:hover {
   }
 }
 
-.highlight-form {
+.highlight-add {
   animation: formPulse 0.8s ease-in-out;
   border-radius: 10px;
 }
@@ -229,6 +229,9 @@ tr:hover {
 <div id="stats">
   <p id="totalCount"></p> <p id="learningCount"></p> <p id="learnedCount"></p>
 </div>
+
+<div id="addContainer">
+  
 <div class="controls">
   <input id="song" placeholder="Song Name">
   <input id="band" placeholder="Band Name">
@@ -472,13 +475,13 @@ function startEdit(index) {
 
   editIndex = index;
 
-  const form = document.getElementById("songForm");
+  const addContainer = document.getElementById("addContainer");
 
   // scroll into view
-  form.scrollIntoView({ behavior: "smooth" });
+  addContainer.scrollIntoView({ behavior: "smooth" });
 
   // trigger glow animation
-  form.classList.add("highlight-form");
+  addContainer.classList.add("highlight-add");
 
   setTimeout(() => {
     document.getElementById("song").focus();
@@ -486,7 +489,7 @@ function startEdit(index) {
 
   // remove class so it can re-trigger next time
   setTimeout(() => {
-    form.classList.remove("highlight-form");
+    addContainer.classList.remove("highlight-form");
   }, 1000);
 }
 
