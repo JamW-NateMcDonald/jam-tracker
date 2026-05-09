@@ -457,15 +457,18 @@ function startEdit(index) {
   editIndex = index;
 
   const form = document.getElementById("songForm");
-  // ✅ scroll to top smoothly
-  document.getElementById("songForm").scrollIntoView({ behavior: "smooth" });
-  // ✅ optional: focus first input after scroll
-    // trigger glow animation
+
+  // scroll into view
+  form.scrollIntoView({ behavior: "smooth" });
+
+  // trigger glow animation
   form.classList.add("highlight-form");
+
   setTimeout(() => {
     document.getElementById("song").focus();
   }, 300);
-    // remove class so it can re-trigger next time
+
+  // remove class so it can re-trigger next time
   setTimeout(() => {
     form.classList.remove("highlight-form");
   }, 1000);
