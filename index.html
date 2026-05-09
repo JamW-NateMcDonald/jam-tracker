@@ -401,7 +401,6 @@ if (!matchesSearch || !matchesDifficulty || !matchesStatus) return;
   });
   updateStats();
 }
-document.getElementById("search").addEventListener("input", renderTable);
 document.getElementById("difficultyFilter").addEventListener("change", renderTable);
 document.getElementById("statusFilter").addEventListener("change", renderTable);
 function deleteSong(index) {
