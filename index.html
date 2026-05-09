@@ -183,6 +183,26 @@ tr:hover {
   align-items: center;
   justify-content: center;
 }
+
+.header {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 20px;
+}
+
+.logo {
+  width: 40px;
+  height: 40px;
+}
+
+.version {
+  position: fixed;
+  bottom: 10px;
+  left: 10px;
+  font-size: 12px;
+  opacity: 0.6;
+}
     
   </style>
 </head>
@@ -201,6 +221,11 @@ tr:hover {
   <input id="songsterr" placeholder="Songsterr Link">
   <input id="spotify" placeholder="Spotify Link">
 
+ <div class="header">
+  <img src="logo.png" class="logo">
+  <h1>Jam Tracker</h1>
+</div>
+  
   <div>
     <label>Difficulty</label>
     <select id="difficulty">
@@ -211,6 +236,8 @@ tr:hover {
     </select>
   </div>
 
+<div class="version">v1.1</div>
+  
 <div>
   <label>Status</label>
   <select id="statusInput">
@@ -342,6 +369,20 @@ function renderTable() {
   const search = document.getElementById("search").value.toLowerCase();
   const difficultyFilter = document.getElementById("difficultyFilter").value;
   const statusFilter = document.getElementById("statusFilter")?.value || "all";
+
+const tableBody = document.getElementById("songTableBody");
+tableBody.innerHTML = "";
+
+if (songs.length === 0) {
+  tableBody.innerHTML = `
+    <tr>
+      <td colspan="9" style="text-align:center; opacity:0.6;">
+        No songs yet 🎸
+      </td>
+    </tr>
+  `;
+  return;
+}
   
   songs.forEach((s, realIndex) => {
     const matchesSearch =
