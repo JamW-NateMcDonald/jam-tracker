@@ -373,7 +373,7 @@ function renderTable() {
 const tableBody = document.getElementById("songTableBody");
 tableBody.innerHTML = "";
 
-if (songs.length === 0) {
+if (filteredsongs.length === 0) {
   tableBody.innerHTML = `
     <tr>
       <td colspan="9" style="text-align:center; opacity:0.6;">
