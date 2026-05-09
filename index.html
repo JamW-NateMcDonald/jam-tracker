@@ -192,6 +192,17 @@ tr:hover {
   font-size: 12px;
   opacity: 0.6;
 }
+
+@keyframes formFlash {
+  0%   { box-shadow: 0 0 0px rgba(255, 0, 0, 0); }
+  25%  { box-shadow: 0 0 25px rgba(255, 0, 0, 0.7); }
+  100% { box-shadow: 0 0 0px rgba(255, 0, 0, 0); }
+}
+
+.highlight-form {
+  animation: formFlash 1s ease;
+  border-radius: 10px; /* optional but makes glow look nicer */
+}
     
   </style>
 </head>
@@ -445,13 +456,21 @@ function startEdit(index) {
 
   editIndex = index;
 
+  const form = document.getElementById("songForm");
   // ✅ scroll to top smoothly
   document.getElementById("songForm").scrollIntoView({ behavior: "smooth" });
   // ✅ optional: focus first input after scroll
+    // trigger glow animation
+  form.classList.add("highlight-form");
   setTimeout(() => {
     document.getElementById("song").focus();
   }, 300);
+    // remove class so it can re-trigger next time
+  setTimeout(() => {
+    form.classList.remove("highlight-form");
+  }, 1000);
 }
+
 function updateStats() {
   const total = songs.length;
   const learning = songs.filter(s => s.status === "Learning").length;
