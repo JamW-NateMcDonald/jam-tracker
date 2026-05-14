@@ -327,6 +327,17 @@ tr:hover {
 </script>
   
 <script>
+async function loadSongs() {
+  const querySnapshot = await getDocs(collection(db, "songs"));
+  songs = [];
+
+  querySnapshot.forEach((docSnap) => {
+    songs.push({ id: docSnap.id, ...docSnap.data() });
+  });
+
+  renderTable();
+}
+
 let songs = [];
 
 try {
