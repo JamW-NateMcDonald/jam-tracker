@@ -339,23 +339,9 @@ async function loadSongs() {
 }
 
 let songs = [];
-
-try {
-  songs = JSON.parse(localStorage.getItem("songs")) || [];
-} catch (e) {
-  songs = [];
-}let editIndex = null;
+let editIndex = null;
 
 renderTable();
-
-function saveSongs() {
-  try {
-    localStorage.setItem("songs", JSON.stringify(songs));
-    console.log("saved", songs);
-  } catch (e) {
-    console.error("Save failed:", e);
-  }
-}
 
 async function addSong() {
   const { collection, addDoc } = window.firebaseFns;
