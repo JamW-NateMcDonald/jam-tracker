@@ -399,7 +399,6 @@ async function addSong() {
 
   console.log("songs array now:", songs);
 
-  saveSongs();
   renderTable();
   resetForm();
 }
@@ -485,14 +484,12 @@ function sortByBand() {
     const bandCompare = a.band.localeCompare(b.band);
     return bandCompare !== 0 ? bandCompare : a.name.localeCompare(b.name);
   });
-
-  saveSongs();
   renderTable();
+  loadSongs();
 }
 
 function sortByTuning() {
   songs.sort((a, b) => (a.tuning || "").localeCompare(b.tuning || ""));
-  saveSongs();
   renderTable();
 }
 
