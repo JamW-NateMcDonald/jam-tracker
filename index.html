@@ -306,6 +306,26 @@ tr:hover {
   </table>
 </div>
 
+<script type="module">
+  // Import the functions you need from the SDKs you need
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/12.13.0/firebase-app.js";
+  // TODO: Add SDKs for Firebase products that you want to use
+  // https://firebase.google.com/docs/web/setup#available-libraries
+
+  // Your web app's Firebase configuration
+  const firebaseConfig = {
+    apiKey: "AIzaSyBOTHWPMheUdry9CzvCgOpHWbdJuWgSveI",
+    authDomain: "jam-tracker-web.firebaseapp.com",
+    projectId: "jam-tracker-web",
+    storageBucket: "jam-tracker-web.firebasestorage.app",
+    messagingSenderId: "909551264949",
+    appId: "1:909551264949:web:63a95773d1d55da8d78afc"
+  };
+
+  // Initialize Firebase
+  const app = initializeApp(firebaseConfig);
+</script>
+  
 <script>
 let songs = [];
 
