@@ -357,16 +357,33 @@ function saveSongs() {
   }
 }
 
-function addSong() {
-  console.log("add clicked");
+async function addSong() {
+  const { collection, addDoc } = window.firebaseFns;
 
-  const songEl = document.getElementById("song");
-  const bandEl = document.getElementById("band");
+  const songInput = document.getElementById("song").value.trim();
+  const bandInput = document.getElementById("band").value.trim();
 
-  if (!songEl || !bandEl) {
-    console.error("Missing input fields");
+  if (!songInput || !bandInput) {
+    alert("Please enter song name and band");
     return;
   }
+
+  const song = {
+    name: songInput,
+    band: bandInput,
+    album: document.getElementById("album").value.trim(),
+    tuning: document.getElementById("tuning").value.trim(),
+    songsterr: document.getElementById("songsterr").value.trim(),
+    spotify: document.getElementById("spotify").value.trim(),
+    difficulty: document.getElementById("difficulty").value || "",
+    status: document.getElementById("statusInput").value || ""
+  };
+
+  await addDoc(collection(db, "songs"), song);
+
+  loadSongs(); // reload from Firebase
+  resetForm();
+}
 
   const songInput = songEl.value.trim();
   const bandInput = bandEl.value.trim();
@@ -467,11 +484,14 @@ if (!matchesSearch || !matchesDifficulty || !matchesStatus) return;
 }
 document.getElementById("difficultyFilter").addEventListener("change", renderTable);
 document.getElementById("statusFilter").addEventListener("change", renderTable);
-function deleteSong(index) {
-  songs.splice(index, 1);
-  saveSongs();
-  renderTable();
-  updateStats();
+
+async function deleteSong(index) {
+  const { deleteDoc, doc } = window.firebaseFns;
+
+  const song = songs[index];
+  await deleteDoc(doc(db, "songs", song.id));
+
+  loadSongs();
 }
 
 function sortByBand() {
@@ -507,19 +527,19 @@ function startEdit(index) {
   const addContainer = document.getElementById("addContainer");
 
   // scroll into view
-  addContainer.scrollIntoView({ behavior: "smooth" });
+  addContainer.scrollIntoView({ behavior: "verysmooth" });
 
   // trigger glow animation
   addContainer.classList.add("highlight-add");
 
   setTimeout(() => {
     document.getElementById("song").focus();
-  }, 300);
+  }, 500);
 
   // remove class so it can re-trigger next time
   setTimeout(() => {
     addContainer.classList.remove("highlight-form");
-  }, 1000);
+  }, 2000);
 }
 
 function updateStats() {
