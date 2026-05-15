@@ -347,9 +347,7 @@ let editIndex = null;
 
 renderTable();
 
-async function addSong() {
-  const { collection, addDoc } = window.firebaseFns;
-
+window.addSong = async function addSong() {  const { collection, addDoc } = window.firebaseFns;
   const songInput = document.getElementById("song").value.trim();
   const bandInput = document.getElementById("band").value.trim();
 
