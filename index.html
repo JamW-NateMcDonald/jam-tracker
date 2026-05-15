@@ -263,6 +263,7 @@ tr:hover {
 </div>
 
   <button onclick="addSong()">Add Song</button>
+  
 </div>
 
 <br>
@@ -375,8 +376,7 @@ async function addSong() {
   const bandInput = bandEl.value.trim();
 
   if (!songInput || !bandInput) {
-    alert("Please enter song name and band");
-    return;
+    alert("Please enter song name and band") return;
   }
 
   const song = {
@@ -430,7 +430,6 @@ if (!Array.isArray(songs) || songs.length === 0) {
       </td>
     </tr>
   `;
-  return;
 }
   
   songs.forEach((s, realIndex) => {
