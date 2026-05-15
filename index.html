@@ -372,11 +372,9 @@ async function addSong() {
   resetForm();
 }
 
-  const songInput = songEl.value.trim();
-  const bandInput = bandEl.value.trim();
-
   if (!songInput || !bandInput) {
-    alert("Please enter song name and band") return;
+    alert("Please enter song name and band") 
+    return;
   }
 
   const song = {
