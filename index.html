@@ -347,7 +347,8 @@ let editIndex = null;
 
 renderTable();
 
-window.addSong = async function addSong() {  const { collection, addDoc } = window.firebaseFns;
+window.addSong = async function addSong() {  
+  const { collection, addDoc } = window.firebaseFns;
   const songInput = document.getElementById("song").value.trim();
   const bandInput = document.getElementById("band").value.trim();
 
@@ -469,16 +470,15 @@ if (!matchesSearch || !matchesDifficulty || !matchesStatus) return;
 document.getElementById("difficultyFilter").addEventListener("change", renderTable);
 document.getElementById("statusFilter").addEventListener("change", renderTable);
 
-async function deleteSong(index) {
+window.deleteSong = async function deleteSong(index) {  
   const { deleteDoc, doc } = window.firebaseFns;
-
   const song = songs[index];
   await deleteDoc(doc(db, "songs", song.id));
 
   loadSongs();
 }
 
-function sortByBand() {
+window.sortByBand = function sortByBand() {
   songs.sort((a, b) => {
     const bandCompare = a.band.localeCompare(b.band);
     return bandCompare !== 0 ? bandCompare : a.name.localeCompare(b.name);
@@ -487,12 +487,12 @@ function sortByBand() {
   loadSongs();
 }
 
-function sortByTuning() {
+window.sortByTuning = function sortByTuning() {  
   songs.sort((a, b) => (a.tuning || "").localeCompare(b.tuning || ""));
   renderTable();
 }
 
-function startEdit(index) {
+window.startEdit = function startEdit(index) {
   const s = songs[index];
 
   document.getElementById("song").value = s.name;
