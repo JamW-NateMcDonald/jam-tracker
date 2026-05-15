@@ -325,6 +325,9 @@ tr:hover {
 
   // Initialize Firebase
   const app = initializeApp(firebaseConfig);
+window.db = db;
+window.firebaseFns = { collection, addDoc, getDocs, deleteDoc, doc, updateDoc };
+  
 </script>
   
 <script>
@@ -428,6 +431,7 @@ if (!Array.isArray(songs) || songs.length === 0) {
       </td>
     </tr>
   `;
+  return;
 }
   
   songs.forEach((s, realIndex) => {
@@ -507,7 +511,7 @@ function startEdit(index) {
   const addContainer = document.getElementById("addContainer");
 
   // scroll into view
-  addContainer.scrollIntoView({ behavior: "verysmooth" });
+  addContainer.scrollIntoView({ behavior: "smooth" });
 
   // trigger glow animation
   addContainer.classList.add("highlight-add");
