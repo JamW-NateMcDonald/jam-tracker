@@ -374,35 +374,6 @@ window.addSong = async function addSong() {
   resetForm();
 }
 
-  if (!songInput || !bandInput) {
-    alert("Please enter song name and band") 
-    return;
-  }
-
-  const song = {
-    name: songInput,
-    band: bandInput,
-    album: document.getElementById("album").value.trim(),
-    tuning: document.getElementById("tuning").value.trim(),
-    songsterr: document.getElementById("songsterr").value.trim(),
-    spotify: document.getElementById("spotify").value.trim(),
-    difficulty: document.getElementById("difficulty").value || "",
-    status: document.getElementById("statusInput").value || ""
-  };
-
-  if (editIndex !== null) {
-    songs[editIndex] = song;
-    editIndex = null;
-  } else {
-    songs.push(song);
-  }
-
-  console.log("songs array now:", songs);
-
-  renderTable();
-  resetForm();
-}
-
 function resetForm() {
   document.getElementById("song").value = "";
   document.getElementById("band").value = "";
