@@ -263,7 +263,6 @@ tr:hover {
 </div>
 
   <button onclick="addSong()">Add Song</button>
-  
 </div>
 
 <br>
@@ -307,75 +306,42 @@ tr:hover {
   </table>
 </div>
 
-<script type="module">
-  // Import the functions you need from the SDKs you need
-  import { initializeApp } from "https://www.gstatic.com/firebasejs/12.13.0/firebase-app.js";
-  // TODO: Add SDKs for Firebase products that you want to use
-  // https://firebase.google.com/docs/web/setup#available-libraries
-
-  // Your web app's Firebase configuration
-  const firebaseConfig = {
-    apiKey: "AIzaSyBOTHWPMheUdry9CzvCgOpHWbdJuWgSveI",
-    authDomain: "jam-tracker-web.firebaseapp.com",
-    projectId: "jam-tracker-web",
-    storageBucket: "jam-tracker-web.firebasestorage.app",
-    messagingSenderId: "909551264949",
-    appId: "1:909551264949:web:63a95773d1d55da8d78afc"
-  };
-
-  // Initialize Firebase
-  const app = initializeApp(firebaseConfig);
-window.db = db;
-window.firebaseFns = { collection, addDoc, getDocs, deleteDoc, doc, updateDoc };
-  
-</script>
-  
 <script>
-async function loadSongs() {
-  const querySnapshot = await getDocs(collection(db, "songs"));
-  songs = [];
-
-  querySnapshot.forEach((docSnap) => {
-    songs.push({ id: docSnap.id, ...docSnap.data() });
-  });
-
-  renderTable();
-}
-
 let songs = [];
-let editIndex = null;
+
+try {
+  songs = JSON.parse(localStorage.getItem("songs")) || [];
+} catch (e) {
+  songs = [];
+}let editIndex = null;
 
 renderTable();
 
-window.addSong = async function addSong() {  
-  const { collection, addDoc } = window.firebaseFns;
-  const songInput = document.getElementById("song").value.trim();
-  const bandInput = document.getElementById("band").value.trim();
+function saveSongs() {
+  try {
+    localStorage.setItem("songs", JSON.stringify(songs));
+    console.log("saved", songs);
+  } catch (e) {
+    console.error("Save failed:", e);
+  }
+}
 
-  if (!songInput || !bandInput) {
-    alert("Please enter song name and band");
+function addSong() {
+  console.log("add clicked");
+
+  const songEl = document.getElementById("song");
+  const bandEl = document.getElementById("band");
+
+  if (!songEl || !bandEl) {
+    console.error("Missing input fields");
     return;
   }
 
-  const song = {
-    name: songInput,
-    band: bandInput,
-    album: document.getElementById("album").value.trim(),
-    tuning: document.getElementById("tuning").value.trim(),
-    songsterr: document.getElementById("songsterr").value.trim(),
-    spotify: document.getElementById("spotify").value.trim(),
-    difficulty: document.getElementById("difficulty").value || "",
-    status: document.getElementById("statusInput").value || ""
-  };
-
-  await addDoc(collection(db, "songs"), song);
-
-  loadSongs(); // reload from Firebase
-  resetForm();
-}
+  const songInput = songEl.value.trim();
+  const bandInput = bandEl.value.trim();
 
   if (!songInput || !bandInput) {
-    alert("Please enter song name and band") 
+    alert("Please enter song name and band");
     return;
   }
 
@@ -399,6 +365,7 @@ window.addSong = async function addSong() {
 
   console.log("songs array now:", songs);
 
+  saveSongs();
   renderTable();
   resetForm();
 }
@@ -469,30 +436,30 @@ if (!matchesSearch || !matchesDifficulty || !matchesStatus) return;
 }
 document.getElementById("difficultyFilter").addEventListener("change", renderTable);
 document.getElementById("statusFilter").addEventListener("change", renderTable);
-
-window.deleteSong = async function deleteSong(index) {  
-  const { deleteDoc, doc } = window.firebaseFns;
-  const song = songs[index];
-  await deleteDoc(doc(db, "songs", song.id));
-
-  loadSongs();
+function deleteSong(index) {
+  songs.splice(index, 1);
+  saveSongs();
+  renderTable();
+  updateStats();
 }
 
-window.sortByBand = function sortByBand() {
+function sortByBand() {
   songs.sort((a, b) => {
     const bandCompare = a.band.localeCompare(b.band);
     return bandCompare !== 0 ? bandCompare : a.name.localeCompare(b.name);
   });
+
+  saveSongs();
   renderTable();
-  loadSongs();
 }
 
-window.sortByTuning = function sortByTuning() {  
+function sortByTuning() {
   songs.sort((a, b) => (a.tuning || "").localeCompare(b.tuning || ""));
+  saveSongs();
   renderTable();
 }
 
-window.startEdit = function startEdit(index) {
+function startEdit(index) {
   const s = songs[index];
 
   document.getElementById("song").value = s.name;
@@ -516,12 +483,12 @@ window.startEdit = function startEdit(index) {
 
   setTimeout(() => {
     document.getElementById("song").focus();
-  }, 500);
+  }, 300);
 
   // remove class so it can re-trigger next time
   setTimeout(() => {
     addContainer.classList.remove("highlight-form");
-  }, 2000);
+  }, 1000);
 }
 
 function updateStats() {
