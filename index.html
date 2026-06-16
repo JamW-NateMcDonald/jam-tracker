@@ -308,14 +308,12 @@ tr:hover {
 </div>
 
 <script type="module">
-import { initializeApp } 
-from "https://www.gstatic.com/firebasejs/12.13.0/firebase-app.js";
+  // Import the functions you need from the SDKs you need
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/12.13.0/firebase-app.js";
+  // TODO: Add SDKs for Firebase products that you want to use
+  // https://firebase.google.com/docs/web/setup#available-libraries
 
-  import { getFirestore, collection, addDoc, getDocs, deleteDoc, doc, updateDoc } 
-from "https://www.gstatic.com/firebasejs/12.13.0/firebase-firestore.js";
-
-const db = getFirestore(app);
-  
+  // Your web app's Firebase configuration
   const firebaseConfig = {
     apiKey: "AIzaSyBOTHWPMheUdry9CzvCgOpHWbdJuWgSveI",
     authDomain: "jam-tracker-web.firebaseapp.com",
@@ -324,9 +322,9 @@ const db = getFirestore(app);
     messagingSenderId: "909551264949",
     appId: "1:909551264949:web:63a95773d1d55da8d78afc"
   };
-const app = initializeApp(firebaseConfig);
-const db = getFirestore(app);
 
+  // Initialize Firebase
+  const app = initializeApp(firebaseConfig);
 window.db = db;
 window.firebaseFns = { collection, addDoc, getDocs, deleteDoc, doc, updateDoc };
   
@@ -373,6 +371,35 @@ window.addSong = async function addSong() {
   await addDoc(collection(db, "songs"), song);
 
   loadSongs(); // reload from Firebase
+  resetForm();
+}
+
+  if (!songInput || !bandInput) {
+    alert("Please enter song name and band") 
+    return;
+  }
+
+  const song = {
+    name: songInput,
+    band: bandInput,
+    album: document.getElementById("album").value.trim(),
+    tuning: document.getElementById("tuning").value.trim(),
+    songsterr: document.getElementById("songsterr").value.trim(),
+    spotify: document.getElementById("spotify").value.trim(),
+    difficulty: document.getElementById("difficulty").value || "",
+    status: document.getElementById("statusInput").value || ""
+  };
+
+  if (editIndex !== null) {
+    songs[editIndex] = song;
+    editIndex = null;
+  } else {
+    songs.push(song);
+  }
+
+  console.log("songs array now:", songs);
+
+  renderTable();
   resetForm();
 }
 
@@ -493,7 +520,7 @@ window.startEdit = function startEdit(index) {
 
   // remove class so it can re-trigger next time
   setTimeout(() => {
-    addContainer.classList.remove("highlight-add");
+    addContainer.classList.remove("highlight-form");
   }, 2000);
 }
 
@@ -506,9 +533,6 @@ function updateStats() {
   document.getElementById("learningCount").innerText = `Learning: ${learning}`;
   document.getElementById("learnedCount").innerText = `Learned: ${learned}`;
 }
-
-loadSongs();
-  
 </script>
 
 </body>
